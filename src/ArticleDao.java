@@ -23,6 +23,16 @@ public class ArticleDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
+		/*
+		 * Scanner sc = new Scanner(System.in);
+		 * 
+		 * int a = sc.nextInt(); System.out.println("Hello world!" + a);
+		 * 
+		 * => 숫자만 입력 받을 수 있음. 개발자 입장에서는 숫자로 입력 받는 것을 알 수 있지만 사용자 입장에서는 그렇지 못하기 때문에 오류가
+		 * 발생할 수 있음 그렇기 때문에 예외처리 할 수 있는 장치를 해둔다. try { int a = sc.nextInt(); } catch
+		 * (예외) { } 도움말에서 try / catch 처리를 해주는 장치가 있음
+		 */
+
 		try {
 
 			Class.forName(driver);
@@ -78,6 +88,28 @@ public class ArticleDao {
 			}
 		}
 
+		return articles;
+	}
+	
+	public ArrayList<Article> AddArticleslist() {
+		
+		ArrayList<Article> articles = new ArrayList<>();
+		
+		Connection conn = null;
+
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, pass);
+			
+			String sql2 = " INSERT INTO article SET title = ?, `body` = ?, nickname = '홍길동', hit = 10";
+			
+			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
 		return articles;
 	}
 }

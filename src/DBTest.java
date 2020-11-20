@@ -10,7 +10,7 @@ public class DBTest {
 		Scanner sc = new Scanner(System.in);
 
 		while (true) {
-			System.out.print("명령어를 입력해주세요 : ");
+			System.out.println("명령어를 입력해주세요 : ");
 			String cmd = sc.nextLine();
 
 			if (cmd.equals("list")) {
@@ -35,19 +35,24 @@ public class DBTest {
 
 			}
 
-//			else if (cmd.equals("add")) {
-//				System.out.print("제목 : ");
-//				String title = sc.nextLine();
-//				System.out.print("내용 : ");
-//				String body = sc.nextLine();
-//
-//				String sql2 = " INSERT INTO article SET title = ?, `body` = ?, nickname = '홍길동', hit = 10";
-//				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-//
-//				pstmt2.setString(1, title);
-//				pstmt2.setString(2, body);
-//				pstmt2.executeUpdate();
-//			} else if (cmd.equals("update")) {
+			else if (cmd.equals("add")) {
+				
+				Article a = new Article(); 
+				
+				System.out.print("제목 : ");
+				String title = sc.nextLine();
+				a.setTitle(title);
+				System.out.print("내용 : ");
+				String body = sc.nextLine();
+				a.setBody(body);
+				
+				ArrayList<Article> articles = articleDao.AddArticleslist();
+
+				articles.setString(1, title);
+				articles.setString(2, body);
+				articles.executeUpdate();
+			}
+//			else if (cmd.equals("update")) {
 //				System.out.print("번호 : ");
 //				int id = Integer.parseInt(sc.nextLine());
 //
