@@ -12,7 +12,7 @@ private DBUtil2 db = new DBUtil2();
 	//전체조회
 	public ArrayList<Article> getArticles() {
 		String sql = "select * from article";
-		return db.getRows(sql); //조회가 필요한 것
+		return db.getRows(sql, new ArticleRowMapper()); //조회가 필요한 것
 	}
 	
 	//수정
@@ -35,23 +35,21 @@ private DBUtil2 db = new DBUtil2();
 
 	public Article getArticleById(int aid) {
 		String sql = "select * from article where id = ?";
-		return db.getRow(sql, aid);
+		return db.getRow(sql, new ArticleRowMapper(), aid);
 	}
 
-	public void insertReply(int id, String body) {
-		// TODO Auto-generated method stub
-		
+	public int insertReply(int aid, int id, String body) {
+		String sql = "insert into reply set aid = ?, body = ?, writer = '익명', regDate = NOW()";
+		return db.updateQuery(sql, aid, id, body);
 	}
 
-	public ArrayList<Member> insertMember(String mid, String mpw, String mnn) {
-		String sql = "insert into member set Mid = ?, MPw = ?, Mnickname = '?', regDate = NOW()";
-		return db.updateQuery(sql, params);
+	public int insertMember(String mid, String mpw, String mnn) {
+		String sql = "insert into member set id = ?, pw = ?, nn = '?', regDate = NOW()";
+		return db.updateQuery(sql, mid, mpw, mnn);
 	}
 
-	public ArrayList<Member> getMember(String mid, String mpw) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	public ArrayList<Member> getMemberByLoginIdAndPw(String id, String pw) {
+		String sql = "select * from member where id = ? and pw = ?";
+		return db.getRows(sql, new MemberRowMapper()); //조회가 필요한 것
 
 }

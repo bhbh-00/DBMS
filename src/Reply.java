@@ -4,15 +4,15 @@ public class Reply {
 	int id;
 	int parentId;
 	String body;
-	String Nickname;
+	String writer;
 	String regDate;
 	
-	public Reply(int id, int parentId, String body, String Nickname, String regDate) {
+	public Reply(int id, int parentId, String body, String writer, String regDate) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
 		this.body = body;
-		this.Nickname = Nickname;
+		this.writer = writer;
 		this.regDate = regDate;
 	}
 	
@@ -38,11 +38,11 @@ public class Reply {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	public String getNickname() {
-		return Nickname;
+	public String getwriter() {
+		return writer;
 	}
-	public void setNickname(String Nickname) {
-		this.Nickname = Nickname;
+	public void setwriter(String writer) {
+		this.writer = writer;
 	}
 	public String getRegDate() {
 		return regDate;

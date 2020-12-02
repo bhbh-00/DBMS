@@ -27,10 +27,12 @@ public class DBTest {
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 				articleDao.updateArticle(title, body, aid);
+
 			} else if (cmd.equals("delete")) {
 				System.out.print("삭제할 게시물 번호 : ");
 				int aid = Integer.parseInt(sc.nextLine());
 				articleDao.deleteArticle(aid);
+
 			} else if (cmd.equals("add")) {
 				System.out.print("제목 : ");
 				String title = sc.nextLine();
@@ -38,56 +40,73 @@ public class DBTest {
 				String body = sc.nextLine();
 
 				articleDao.insertArticle(title, body);
+
 			} else if (cmd.equals("read")) {
 				System.out.print("상세보기할 게시물 번호 : ");
 				int aid = Integer.parseInt(sc.nextLine());
 
 				Article article = articleDao.getArticleById(aid);
-				
-				if(article == null) {
-					
+
+				if (article == null) {
+
 				} else {
-					
+
 				}
 
 				if (article == null) {
 					System.out.println("없는 게시물입니다.");
+					
 				} else {
 					while (true) {
+						
 						System.out.print("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) : ");
 						int dcmd = Integer.parseInt(sc.nextLine());
+						
 						if (dcmd == 1) {
 							System.out.print("내용을 입력해주세요 :");
 							String body = sc.nextLine();
-							articleDao.insertReply(article.getId(), body);
+							articleDao.insertReply(aid, article.getId(), body);
+							
 						} else {
 							break;
 						}
 					}
-				} 
+				}
 			}
 			// =============================================================== 회원기능
-			else if(cmd.equals("signup")) {
+			else if (cmd.equals("signup")) {
 				System.out.println("======== 회원가입 ========");
+
 				System.out.print("아이디를 입력해주세요. : ");
 				String mid = sc.nextLine();
+
 				System.out.print("비밀번호를 입력해주세요. : ");
 				String mpw = sc.nextLine();
+
 				System.out.print("닉네임을 입력해주세요. : ");
 				String mnn = sc.nextLine();
-				
-				ArrayList<Member> members = articleDao.insertMember(mid,mpw,mnn);
-			} 
-			else if(cmd.equals("signin")) {
-				System.out.println("======== LOGIN ========");
-				System.out.print("아이디를 입력해주세요. : ");
-				String mid = sc.nextLine();
-				System.out.print("비밀번호를 입력해주세요. : ");
-				String mpw = sc.nextLine();
-				
-				ArrayList<Member> members = articleDao.getMember(mid, mpw);
+
+			} else if (cmd.equals("signin")) {
+
+				System.out.println("==== 로그인 LOGIN ====");
+
+				System.out.print("아이디를 입력해주세요 :");
+				String Id = sc.nextLine();
+
+				System.out.print("비밀번호를 입력해주세요 : ");
+				String Pw = sc.nextLine();
+
+				ArrayList<Member> member = articleDao.getMemberByLoginIdAndPw(Id, Pw);
+
+				if (member == null) {
+					System.out.println("비밀번호가 틀렸거나 잘못된 회원정보입니다.");
+				} else {
+					System.out.println("안녕하세요!");
+				}
+
 			}
-			
+
 		}
+
 	}
 }

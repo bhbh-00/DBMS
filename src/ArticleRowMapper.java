@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ArticleRowMapper implements RowMapper<Article>{
 	
+	@Override
 	public Article getRow(ResultSet rs) throws SQLException{
 		
 		ArrayList<Article> articles = new ArrayList<>();
