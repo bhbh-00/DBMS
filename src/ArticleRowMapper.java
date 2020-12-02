@@ -1,29 +1,27 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ArticleRowMapper implements RowMapper<Article>{
 	
 	@Override
-	public Article getRow(ResultSet rs) throws SQLException{
+	public Article getRow(ResultSet rs) throws SQLException {
 		
-		ArrayList<Article> articles = new ArrayList<>();
-		
+		int ArticleNum = rs.getInt("ArticleNum");
 		String title = rs.getString("title");
-		int id = rs.getInt("id");
 		String body = rs.getString("body");
 		String nickname = rs.getString("nickname");
 		int hit = rs.getInt("hit");
-
+		String regdate = rs.getString("regdate");
+		
 		Article article = new Article();
+		article.setArticleNum(ArticleNum);
 		article.setTitle(title);
 		article.setBody(body);
 		article.setNickname(nickname);
-		article.setId(id);
 		article.setHit(hit);
-
-		articles.add(article);
+		article.setRegdate(regdate);
 		
 		return article;
 	}
+	
 }

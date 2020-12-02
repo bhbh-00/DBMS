@@ -1,53 +1,64 @@
 
 public class Reply {
-
-	int id;
-	int parentId;
-	String body;
-	String writer;
-	String regDate;
 	
-	public Reply(int id, int parentId, String body, String writer, String regDate) {
-		super();
-		this.id = id;
-		this.parentId = parentId;
-		this.body = body;
-		this.writer = writer;
-		this.regDate = regDate;
-	}
+	private int parentId;
+	private int replyId;
+	private String replybody;
+	private String replynickname;
+	private String replyregdate;
 	
 	public Reply() {
-		// TODO Auto-generated constructor stub
+		
+	}
+	
+	public Reply(int parentId, int replyId, String replybody, String replynickname, String replyregdate) {
+		super();
+		this.parentId = parentId;
+		this.replyId = replyId;
+		this.replybody = replybody;
+		this.replynickname = replynickname;
+		this.replyregdate = replyregdate;
 	}
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getParentId() {
 		return parentId;
 	}
+
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public String getBody() {
-		return body;
+
+	public int getReplyId() {
+		return replyId;
 	}
-	public void setBody(String body) {
-		this.body = body;
+
+	public void setReplyId(int replyId) {
+		this.replyId = replyId;
 	}
-	public String getwriter() {
-		return writer;
+
+	public String getReplybody() {
+		return replybody;
 	}
-	public void setwriter(String writer) {
-		this.writer = writer;
+
+	public void setReplybody(String replybody) {
+		this.replybody = replybody;
 	}
-	public String getRegDate() {
-		return regDate;
+
+	public String getReplynickname() {
+		return replynickname;
 	}
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+
+	public void setReplynickname(String replynickname) {
+		this.replynickname = replynickname;
 	}
+
+	public String getReplyregdate() {
+		return replyregdate;
+	}
+
+	public void setReplyregdate(String replyregdate) {
+		this.replyregdate = replyregdate;
+	}
+	
+
 }

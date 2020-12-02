@@ -1,61 +1,63 @@
 
 public class Member {
-	private int id; // 등록번호
-	private String MId; // 회원가입 아이디
-	private String MPw; // 회원가입 비밀번호
-	private String MNickname; // 회원가입 닉네임
-	private String MregDate; // 회원가입 등록날짜
 
+	private int MemberRegNum;
+	private String MemberId;
+	private String MemberPw;
+	private String Membernickname;
+	private String Memberregdate;
+	
 	public Member() {
+		
+	}
+
+	public Member(int memberRegNum, String memberId, String memberPw, String membernickname, String memberregdate) {
+		this.MemberRegNum = memberRegNum;
+		this.MemberId = memberId;
+		this.MemberPw = memberPw;
+		this.Membernickname = membernickname;
+		this.Memberregdate = memberregdate;
 
 	}
 
-	public Member(int id, String mId, String mPw, String mNickname, String mregDate) {
-		this.id = id;
-		this.MId = mId;
-		this.MPw = mPw;
-		this.MNickname = mNickname;
-		this.MregDate = mregDate;
+	public int getMemberRegNum() {
+		return MemberRegNum;
 	}
 
-	public int getId() {
-		return id;
+	public void setMemberRegNum(int memberRegNum) {
+		MemberRegNum = memberRegNum;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getMemberId() {
+		return MemberId;
 	}
 
-	public String getMId() {
-		return MId;
+	public void setMemberId(String memberId) {
+		MemberId = memberId;
 	}
 
-	public void setMId(String mId) {
-		MId = mId;
+	public String getMemberPw() {
+		return MemberPw;
 	}
 
-	public String getMPw() {
-		return MPw;
+	public void setMemberPw(String memberPw) {
+		MemberPw = memberPw;
 	}
 
-	public void setMPw(String mPw) {
-		MPw = mPw;
+	public String getMembernickname() {
+		return Membernickname;
 	}
 
-	public String getMNickname() {
-		return MNickname;
+	public void setMembernickname(String membernickname) {
+		Membernickname = membernickname;
 	}
 
-	public void setMNickname(String mNickname) {
-		MNickname = mNickname;
+	public String getMemberregdate() {
+		return Memberregdate;
 	}
 
-	public String getMregDate() {
-		return MregDate;
-	}
-
-	public void setMregDate(String mregDate) {
-		MregDate = mregDate;
+	public void setMemberregdate(String memberregdate) {
+		Memberregdate = memberregdate;
 	}
 
 }

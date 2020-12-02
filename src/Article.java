@@ -1,73 +1,93 @@
 
 public class Article {
 	
-	private int id;
+	private int ArticleNum;
 	private String title;
-	private String nickname;
 	private String body;
-	private String regDate;
+	private String nickname;
 	private int hit;
-
+	private String regdate;
+	
+	
 	public Article() {
-
+		
 	}
 	
-	public Article(int id, String title, String nickname, String body, String regDate, int hit) {
-		this.id = id;
+	
+	public Article(int articleNum, String title, String body, String nickname, int hit, String regdate) {
+
+		this.ArticleNum = articleNum;
 		this.title = title;
-		this.nickname = nickname;
 		this.body = body;
-		this.regDate = regDate;
+		this.nickname = nickname;
 		this.hit = hit;
+		this.regdate = regdate;
 	}
 
-	public int getId() {
-		return id;
+
+
+
+
+	public int getArticleNum() {
+		return ArticleNum;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+
+	public void setArticleNum(int articleNum) {
+		ArticleNum = articleNum;
 	}
+
 
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
 
 	public String getBody() {
 		return body;
 	}
 
+
 	public void setBody(String body) {
 		this.body = body;
 	}
 
-	public String getRegDate() {
-		return regDate;
+
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
+
 
 	public int getHit() {
 		return hit;
 	}
 
+
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+
+
+	public String getRegdate() {
+		return regdate;
+	}
+
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	
+
 	
 	
 }

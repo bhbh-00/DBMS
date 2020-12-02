@@ -1,29 +1,25 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class ReplyRowMapper implements RowMapper<Reply>{
-	
+public class ReplyRowMapper implements RowMapper<Reply> {
+
 	@Override
-	public Reply getRow(ResultSet rs) throws SQLException{
-		
-		ArrayList<Reply> Reply = new ArrayList<>();
-		
-		int parentId = rs.getInt("parentId");
-		int id = rs.getInt("id");
-		String body = rs.getString("body");
-		String writer = rs.getString("writer");
-		String regDate = rs.getString("regDate");
+	public Reply getRow(ResultSet rs) throws SQLException {
 
+		int parentId = rs.getInt("parentId");
+		int replyId = rs.getInt("replyId");
+		String replybody = rs.getString("replybody");
+		String replynickname = rs.getString("replynickname");
+		String replyregdate = rs.getString("replyregdate");
+		
 		Reply reply = new Reply();
 		reply.setParentId(parentId);
-		reply.setId(id);
-		reply.setBody(body);
-		reply.setwriter(writer);
-		reply.setRegDate(regDate);
+		reply.setReplyId(replyId);
+		reply.setReplybody(replybody);
+		reply.setReplynickname(replynickname);
+		reply.setReplyregdate(replyregdate);
 
-		Reply.add(reply);
-		
 		return reply;
 	}
+
 }
