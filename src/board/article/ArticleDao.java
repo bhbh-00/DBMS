@@ -1,4 +1,7 @@
+package board.article;
 import java.util.ArrayList;
+
+import board.DBUtil2;
 
 public class ArticleDao {
 
@@ -10,7 +13,7 @@ public class ArticleDao {
 
 	// 전체조회
 	public ArrayList<Article> getArticles() {
-		String sql = "select * from article";
+		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum";
 		return db.getRows(sql, new ArticleRowMapper()); // 조회가 필요한 것
 	}
 
@@ -28,10 +31,9 @@ public class ArticleDao {
 
 	// 게시물 추가
 	public int insertArticle(String title, String body) {
-		String sql = "insert into article set title = ?, body = ?, nickname = '익명', regDate = NOW(), hit = 0";
+		String sql = "insert into article set title = ?, body = ?, MRegNum = 1, regDate = NOW(), hit = 0";
 		return db.updateQuery(sql, title, body);
 	}
-	
 	
 	public int insertReply(int parentId, String replybody) {
 		String sql = "insert into reply set parentId = ?, replybody = ?, replynickname = '익명', replyregdate = NOW()";
@@ -42,5 +44,11 @@ public class ArticleDao {
 		String sql = "select * from reply where parentId = ?";
 		return db.getRows(sql, new ReplyRowMapper(), parentId);
 	}
+	
+	public Article getArticleById(int ArticleNum) {
+		String sql = "select * from article where ArticleNum = ?";
+		return db.getRow(sql, new ArticleRowMapper(), ArticleNum);
+	}
+			
 
 }

@@ -1,3 +1,6 @@
+package board.member;
+
+import board.DBUtil2;
 
 public class MemberDao {
 	

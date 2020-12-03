@@ -1,3 +1,4 @@
+package board.article;
 
 public class Article {
 	
@@ -23,9 +24,6 @@ public class Article {
 		this.hit = hit;
 		this.regdate = regdate;
 	}
-
-
-
 
 
 	public int getArticleNum() {
