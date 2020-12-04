@@ -1,6 +1,8 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import board.article.Article;
@@ -49,10 +51,14 @@ public class App {
 				readArticle();
 			} else if (cmd.equals("search")) {
 				searchArticle();
+			} else if (cmd.equals("sort")) {
+				Articlesort();
 			} else if (cmd.equals("signup")) {
 				Membersignup();
 			} else if (cmd.equals("signin")) {
 				MemberLOGIN();
+			} else if (cmd.equals("logout")) {
+				MemberLogout();
 			}
 		}
 
@@ -101,6 +107,7 @@ public class App {
 		printArticles(article);
 	}
 
+	// 게시물 출력
 	public void printArticles(ArrayList<Article> article) {
 		for (int i = 0; i < article.size(); i++) {
 			Article articles = article.get(i);
@@ -160,9 +167,9 @@ public class App {
 			} else {
 				ArrayList<Reply> reply = aDao.getRepliesByArticleId(article.getArticleNum());
 				printArticle(article, reply);
-				
+
 				article.setHit(article.getHit() + 1);
-				
+
 				while (true) {
 
 					System.out.println("상세보기 기능을 선택해주세요. 1.댓글 등록, 2.좋아요, 3. 수정, 4.삭제, 5.목록으로 :");
@@ -185,6 +192,7 @@ public class App {
 		}
 	}
 
+	// 게시물 출력 + 댓글
 	public void printArticle(Article article, ArrayList<Reply> reply) {
 
 		System.out.println("======== " + article.getArticleNum() + " ========");
@@ -209,11 +217,66 @@ public class App {
 
 		} else {
 			System.out.println("게시물 검색 방식을 선택해주세요.");
+			System.out.println();
 			System.out.println("1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자");
 
 			int flag = Integer.parseInt(sc.nextLine());
 
+			System.out.println("검색키워드를 입력해주세요.");
+			String key = sc.nextLine();
 		}
+	}
+
+	// 게시물 정렬 기능
+	public void Articlesort() {
+		System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
+		String sortType = sc.nextLine();
+		System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
+		String sortOrder = sc.nextLine();
+		MycompArticle comp1 = new MycompArticle();
+		comp1.sortOrder = sortOrder;
+		comp1.sortType = sortType;
+
+		// 조회수로 오름차순, 내림차순
+		ArrayList<Article> article = aDao.getArticles();
+		Collections.sort(article, comp1);
+
+		// Pagination pagination = new Pagination();
+		// printArticles(article, pagination);
+	}
+
+	// 게시물 정렬
+	class MycompArticle implements Comparator<Article> {
+
+		String sortOrder = "asc";
+		String sortType = "hit";
+
+		@Override
+		public int compare(Article o1, Article o2) {
+			int c1 = 0;
+			int c2 = 0;
+
+			if (sortOrder.equals("hit")) {
+				c1 = o1.getHit();
+				c2 = o2.getHit();
+			} else if (sortOrder.equals("hit")) {
+//				c1 = o1.getLikeCnt();
+//				c2 = o2.getLikeCnt();
+			}
+
+			if (sortOrder.equals("asc")) {
+				if (c1 > c2) {
+					return 1; // 양수로 하는 게 확실
+				}
+				return -1;
+			} else {
+				if (c1 < c2) {
+					return 1; // 양수로 하는 게 확실
+				}
+				return -1;
+			}
+		}
+
 	}
 
 	// 회원가입기능
@@ -257,6 +320,16 @@ public class App {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	// 로그아웃
+	public void MemberLogout() {
+		if (!isLogin()) {
+
+		} else {
+			login = null;
+			System.out.println("로그아웃 되었습니다.");
 		}
 	}
 

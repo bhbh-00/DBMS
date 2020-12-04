@@ -49,6 +49,16 @@ public class ArticleDao {
 		String sql = "select * from article where ArticleNum = ?";
 		return db.getRow(sql, new ArticleRowMapper(), ArticleNum);
 	}
-			
+	
+	//검색 제목 1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자
+	public Article searchArticleBytitle(String title) {
+		String sql = "select * from article where title like concat_ws('%', '?', '%')";
+		return db.getRow(sql, new ArticleRowMapper(), title);
+	}
+	
+	public Article searchArticleBytitle(String title, String body) {
+		String sql = "select * from article where title like concat_ws('%', '?', '%')";
+		return db.getRow(sql, new ArticleRowMapper(), title, body);
+	}
 
 }
