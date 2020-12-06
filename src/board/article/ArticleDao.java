@@ -60,5 +60,16 @@ public class ArticleDao {
 		String sql = "select * from article where title like concat_ws('%', '?', '%')";
 		return db.getRow(sql, new ArticleRowMapper(), title, body);
 	}
+	
+	//조회수로 정렬
+	public ArrayList<Article> sortArticleByhitofacs() {
+		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by a.hit asc";
+		return db.getRows(sql, new ArticleRowMapper());
+	}
+	
+	public ArrayList<Article> sortArticleByhitofdesc() {
+		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by a.hit desc";
+		return db.getRows(sql, new ArticleRowMapper());
+	}
 
 }

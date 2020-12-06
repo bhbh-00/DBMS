@@ -229,54 +229,26 @@ public class App {
 
 	// 게시물 정렬 기능
 	public void Articlesort() {
+
+		ArrayList<Article> article;
+		
 		System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
 		String sortType = sc.nextLine();
-		System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
-		String sortOrder = sc.nextLine();
-		MycompArticle comp1 = new MycompArticle();
-		comp1.sortOrder = sortOrder;
-		comp1.sortType = sortType;
-
-		// 조회수로 오름차순, 내림차순
-		ArrayList<Article> article = aDao.getArticles();
-		Collections.sort(article, comp1);
-
-		// Pagination pagination = new Pagination();
-		// printArticles(article, pagination);
-	}
-
-	// 게시물 정렬
-	class MycompArticle implements Comparator<Article> {
-
-		String sortOrder = "asc";
-		String sortType = "hit";
-
-		@Override
-		public int compare(Article o1, Article o2) {
-			int c1 = 0;
-			int c2 = 0;
-
-			if (sortOrder.equals("hit")) {
-				c1 = o1.getHit();
-				c2 = o2.getHit();
-			} else if (sortOrder.equals("hit")) {
-//				c1 = o1.getLikeCnt();
-//				c2 = o2.getLikeCnt();
-			}
-
+		if (sortType.equals("like")) {
+			System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
+			String sortOrder = sc.nextLine();
 			if (sortOrder.equals("asc")) {
-				if (c1 > c2) {
-					return 1; // 양수로 하는 게 확실
-				}
-				return -1;
-			} else {
-				if (c1 < c2) {
-					return 1; // 양수로 하는 게 확실
-				}
-				return -1;
+			} else if (sortOrder.equals("desc")) {
+			}
+		} else if (sortType.equals("hit")) {
+			System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
+			String sortOrder = sc.nextLine();
+			if (sortOrder.equals("asc")) {
+				aDao.sortArticleByhitofdesc();
+			} else if (sortOrder.equals("desc")) {
+				aDao.sortArticleByhitofdesc();
 			}
 		}
-
 	}
 
 	// 회원가입기능
