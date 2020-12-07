@@ -60,7 +60,7 @@ public class App {
 			} else if (cmd.equals("search")) {
 				searchArticle();
 			} else if (cmd.equals("sort")) {
-				Articlesort();
+				sort();
 			} else if (cmd.equals("signup")) {
 				Membersignup();
 			} else if (cmd.equals("signin")) {
@@ -220,27 +220,17 @@ public class App {
 	}
 
 	// 게시물 정렬 기능
-	public void Articlesort() {
+	public void sort() {
 
-		ArrayList<Article> article;
+		System.out.println("정렬 대상을 선택해주세요. 1. 좋아요,  2. 조회수");
+		int sortFlag = Integer.parseInt(sc.nextLine());
 
-		System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
-		String sortType = sc.nextLine();
-		if (sortType.equals("like")) {
-			System.out.println("정렬 방법을 선택해주세요. asc : 오름차순,  desc : 내림차순");
-			String sortOrder = sc.nextLine();
-			if (sortOrder.equals("asc")) {
-			} else if (sortOrder.equals("desc")) {
-			}
-		} else if (sortType.equals("hit")) {
-			System.out.println("정렬 방법을 선택해주세요. : asc : 오름차순,  desc : 내림차순");
-			String sortOrder = sc.nextLine();
-			if (sortOrder.equals("asc")) {
-				aDao.sortArticleByhitofdesc();
-			} else if (sortOrder.equals("desc")) {
-				aDao.sortArticleByhitofdesc();
-			}
-		}
+		System.out.println("정렬 방법을 선택해주세요. 1. 오름차순,  2. 내림차순");
+		int sortType = Integer.parseInt(sc.nextLine());;
+		
+		ArrayList<Article> sortArticle = aDao.getsortArticle(sortFlag,sortType);
+		printArticles(sortArticle);
+
 	}
 
 	// 회원가입기능

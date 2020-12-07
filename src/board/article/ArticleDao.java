@@ -1,4 +1,5 @@
 package board.article;
+
 import java.util.ArrayList;
 
 import board.DBUtil2;
@@ -30,11 +31,12 @@ public class ArticleDao {
 	}
 
 	// 게시물 추가
-	public int insertArticle(String title, String body,String mid) {
+	public int insertArticle(String title, String body, String mid) {
 		String sql = "insert into article set title = ?, body = ?, MRegNum = ?, regDate = NOW(), hit = 0";
 		return db.updateQuery(sql, title, body, mid);
 	}
-	
+
+	// 게시물 댓글추가 기능
 	public int insertReply(int parentId, String replybody) {
 		String sql = "insert into reply set parentId = ?, replybody = ?, replynickname = '익명', replyregdate = NOW()";
 		return db.updateQuery(sql, parentId, replybody);
@@ -44,41 +46,53 @@ public class ArticleDao {
 		String sql = "select * from reply where parentId = ?";
 		return db.getRows(sql, new ReplyRowMapper(), parentId);
 	}
-	
+
 	public Article getArticleById(int ArticleNum) {
 		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum WHERE a.ArticleNum = ?";
 		return db.getRow(sql, new ArticleRowMapper(), ArticleNum);
 	}
-	
+
 	public Article searchArticleBytitle(String title, String body) {
 		String sql = "select * from article where title like concat_ws('%', '?', '%')";
 		return db.getRow(sql, new ArticleRowMapper(), title, body);
 	}
-	
-	//조회수로 정렬 오름차순
-	public ArrayList<Article> sortArticleByhitofacs() {
-		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by a.hit asc";
-		return db.getRows(sql, new ArticleRowMapper());
-	}
-	
-	//조회수로 정렬 내림차순
-	public ArrayList<Article> sortArticleByhitofdesc() {
-		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by a.hit desc";
-		return db.getRows(sql, new ArticleRowMapper());
-	}
-	//좋아요수로 정렬 오름차순
-	//좋아요수로 정렬 내림차순
 
+	// 조회수 up!!
 	public int increaseHitByArticle(int id) {
 		String sql = "UPDATE article SET hit = hit + 1 WHERE ArticleNum = ?";
 		return db.updateQuery(sql, id);
 	}
-	
-	//검색기능
+
+	// 검색기능 1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자
 	public ArrayList<Article> getsearchedArticle(int flag, String keyword) {
-		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member`m ON a.MRegNum = MemberRegNum WHERE title LIKE CONCAT_WS(?, '%', '%')";
-		return db.getRows(sql, new ArticleRowMapper(), keyword);
+		String sql1 = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum WHERE ";
+		String sql2 = "";
+
+		if (flag == 1) {
+			sql2 = "title LIKE CONCAT_WS(?, '%', '%')";
+		} else if (flag == 2) {
+			sql2 = "body LIKE CONCAT_WS(?, '%', '%')";
+		} else {
+			sql2 = "m.Membernickname LIKE CONCAT_WS(?, '%', '%')";
+		}
+
+		/*
+		 * 제목 + 내용은 잠시 보류 else if (flag == 3) { sql2 =
+		 * "title LIKE CONCAT_WS(?, '%', '%') or body LIKE CONCAT_WS(?, '%', '%')"; }
+		 */
+
+		String sql = sql1 + sql2;
+
+		return db.getRows(sql, new ArticleRowMapper(), flag, keyword);
+	}
+
+	public ArrayList<Article> getsortArticle(int sortFlag, int sortType) {
+		String sql1 = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by ";
+		String sql2 = sortFlag + " " + sortType;
 		
+		String sql = sql1 + sql2; 
+		
+		return db.getRows(sql, new ArticleRowMapper());
 	}
 
 }
