@@ -40,15 +40,23 @@ public class App {
 			} else if (cmd.equals("menu")) {
 				printMenu();
 			} else if (cmd.equals("add")) {
-				AddArticle();
+				if (!isLogin()) {
+					AddArticle();
+				}
 			} else if (cmd.equals("list")) {
 				ArticlesList();
 			} else if (cmd.equals("delete")) {
-				DeleteArticle();
+				if (!isLogin()) {
+					DeleteArticle();
+				}
 			} else if (cmd.equals("update")) {
-				UpdateArticle();
+				if (!isLogin()) {
+					UpdateArticle();
+				}
 			} else if (cmd.equals("read")) {
-				readArticle();
+				if (!isLogin()) {
+					readArticle();
+				}
 			} else if (cmd.equals("search")) {
 				searchArticle();
 			} else if (cmd.equals("sort")) {
@@ -88,17 +96,13 @@ public class App {
 	// 게시물추가 - add
 	public void AddArticle() {
 
-		if (!isLogin()) {
+		System.out.println("게시물을 추가 합니다");
+		System.out.println("제목을 입력해주세요 : ");
+		String title = sc.nextLine();
+		System.out.println("내용을 입력해주세요 : ");
+		String body = sc.nextLine();
 
-		} else {
-			System.out.println("게시물을 추가 합니다");
-			System.out.println("제목을 입력해주세요 : ");
-			String title = sc.nextLine();
-			System.out.println("내용을 입력해주세요 : ");
-			String body = sc.nextLine();
-
-			aDao.insertArticle(title, body);
-		}
+		aDao.insertArticle(title, body, login.getMemberId());
 	}
 
 	// 게시물보기 - list
@@ -117,78 +121,68 @@ public class App {
 			System.out.println("작성자 : " + articles.getNickname());
 			System.out.println("조회수 : " + articles.getHit());
 			System.out.println("등록날짜 : " + articles.getRegdate());
-			System.out.println("================================");
+			System.out.println();
 		}
 	}
 
 	// 게시물삭제 - delete
 	public void DeleteArticle() {
 
-		if (!isLogin()) {
+		System.out.println("삭제할 게시물의 번호를 입력해주세요.");
+		int ArticleNum = Integer.parseInt(sc.nextLine());
 
-		} else {
-			System.out.println("삭제할 게시물의 번호를 입력해주세요.");
-			int ArticleNum = Integer.parseInt(sc.nextLine());
-
-			aDao.deleteArticle(ArticleNum);
-		}
+		aDao.deleteArticle(ArticleNum);
 	}
 
 	// 게시물수정 - update
 	public void UpdateArticle() {
 
-		if (!isLogin()) {
+		System.out.println("수정할 게시물의 번호를 입력해주세요.");
+		int ArticleNum = Integer.parseInt(sc.nextLine());
+		System.out.println("제목을 입력해주세요 : ");
+		String title = sc.nextLine();
+		System.out.println("내용을 입력해주세요 : ");
+		String body = sc.nextLine();
 
-		} else {
-			System.out.println("수정할 게시물의 번호를 입력해주세요.");
-			int ArticleNum = Integer.parseInt(sc.nextLine());
-			System.out.println("제목을 입력해주세요 : ");
-			String title = sc.nextLine();
-			System.out.println("내용을 입력해주세요 : ");
-			String body = sc.nextLine();
-
-			aDao.updateArticle(title, body, ArticleNum);
-		}
+		aDao.updateArticle(title, body, ArticleNum);
 	}
 
 	// 게시물상세보기 - read
 	public void readArticle() {
 
-		if (!isLogin()) {
+		System.out.println("게시물을 선택해주세요.");
+		int aid = Integer.parseInt(sc.nextLine());
 
+		Article article = aDao.getArticleById(aid);
+
+		if (article == null) {
+			System.out.println("없는 게시물입니다.");
 		} else {
-			System.out.println("게시물을 선택해주세요.");
-			int aid = Integer.parseInt(sc.nextLine());
+			ArrayList<Reply> reply = aDao.getRepliesByArticleId(article.getArticleNum());
 
-			Article article = aDao.getArticleById(aid);
+			// 조회수 up 기능 - 1207
+			aDao.increaseHitByArticle(aid);
 
-			if (article == null) {
-				System.out.println("없는 게시물입니다.");
-			} else {
-				ArrayList<Reply> reply = aDao.getRepliesByArticleId(article.getArticleNum());
-				printArticle(article, reply);
+			printArticle(article, reply);
 
-				article.setHit(article.getHit() + 1);
+			while (true) {
 
-				while (true) {
+				System.out.println("상세보기 기능을 선택해주세요.");
+				System.out.print(" 1.댓글 등록, 2.좋아요, 3. 수정, 4.삭제, 5.목록으로 :");
 
-					System.out.println("상세보기 기능을 선택해주세요. 1.댓글 등록, 2.좋아요, 3. 수정, 4.삭제, 5.목록으로 :");
-					System.out.print(" 1.댓글 등록, 2.좋아요, 3. 수정, 4.삭제, 5.목록으로 :");
+				int rcmd = Integer.parseInt(sc.nextLine());
 
-					int rcmd = Integer.parseInt(sc.nextLine());
+				if (rcmd == 1) {
+					System.out.print("댓글 내용을 입력해주세요 : ");
+					String Rbody = sc.nextLine();
+					aDao.insertReply(article.getArticleNum(), Rbody);
+				} else if (rcmd == 2) {
 
-					if (rcmd == 1) {
-						System.out.print("댓글 내용을 입력해주세요 : ");
-						String Rbody = sc.nextLine();
-						aDao.insertReply(article.getArticleNum(), Rbody);
-					} else if (rcmd == 2) {
-
-					} else {
-						break;
-					}
+				} else if (rcmd == 5) {
+					break;
 				}
-
 			}
+
 		}
 	}
 
@@ -210,38 +204,36 @@ public class App {
 
 	}
 
-	// 게시물 검색 기능
+	// 게시물 검색 기능 - 1207
 	public void searchArticle() {
 
-		if (!isLogin()) {
+		System.out.println("1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자");
+		int flag = Integer.parseInt(sc.nextLine());
 
-		} else {
-			System.out.println("게시물 검색 방식을 선택해주세요.");
-			System.out.println();
-			System.out.println("1. 제목, 2. 내용, 3. 제목 + 내용, 4. 작성자");
+		System.out.println("검색키워드를 입력해주세요.");
+		String keyword = sc.nextLine();
 
-			int flag = Integer.parseInt(sc.nextLine());
+		ArrayList<Article> searchedarticle = aDao.getsearchedArticle(flag, keyword);
 
-			System.out.println("검색키워드를 입력해주세요.");
-			String key = sc.nextLine();
-		}
+		printArticles(searchedarticle);
+
 	}
 
 	// 게시물 정렬 기능
 	public void Articlesort() {
 
 		ArrayList<Article> article;
-		
+
 		System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
 		String sortType = sc.nextLine();
 		if (sortType.equals("like")) {
-			System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
+			System.out.println("정렬 방법을 선택해주세요. asc : 오름차순,  desc : 내림차순");
 			String sortOrder = sc.nextLine();
 			if (sortOrder.equals("asc")) {
 			} else if (sortOrder.equals("desc")) {
 			}
 		} else if (sortType.equals("hit")) {
-			System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
+			System.out.println("정렬 방법을 선택해주세요. : asc : 오름차순,  desc : 내림차순");
 			String sortOrder = sc.nextLine();
 			if (sortOrder.equals("asc")) {
 				aDao.sortArticleByhitofdesc();
@@ -285,7 +277,7 @@ public class App {
 
 	}
 
-	// 로그인필요기능
+	// 로그인필요기능 - 1207
 	private boolean isLogin() {
 		if (login == null) {
 			System.out.println("로그인이 필요한 기능입니다.");
