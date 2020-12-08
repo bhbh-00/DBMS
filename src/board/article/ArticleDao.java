@@ -95,11 +95,27 @@ public class ArticleDao {
 		return db.getRows(sql, new ArticleRowMapper());
 	}
 
-	private Like getLike(int aid, int mid) {
+	public Like getLike(int aid, int mid) {
 
 		String sql = "SELECT * FROM `Like` WHERE ArticleNum = ? AND MemberRegNum = ?";
 
-		return db.getRows(sql, new LikeRowMapper(), aid, mid);
+		return db.getRow(sql, new LikeRowMapper(), aid, mid);
 	}
+	
+	public void deleteLike(int aid, int mid) {
+
+		String sql = "delete FROM `Like` WHERE ArticleNum = ? AND MemberRegNum = ?";
+
+		db.updateQuery(sql, aid, mid);
+	}
+	
+	public void insertLike(int aid, int mid) {
+
+		String sql = "insert into `Like` set WHERE ArticleNum = ? , MemberRegNum = ?, regdate = now()";
+
+		db.updateQuery(sql, aid, mid);
+	}
+	
+	
 
 }

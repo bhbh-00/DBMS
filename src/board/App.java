@@ -1,12 +1,11 @@
 package board;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 import board.article.Article;
 import board.article.ArticleDao;
+import board.article.Like;
 import board.article.Reply;
 import board.member.Member;
 import board.member.MemberDao;
@@ -194,16 +193,30 @@ public class App {
 					aDao.insertReply(article.getArticleNum(), Rbody);
 					System.out.println("댓글 등록이 완료되었습니다.");
 					System.out.println();
-				} else if (rcmd == 2) {
-					getLike(article.getArticleNum(), login.getMemberRegNum());
-					if() {
-						System.out.print("좋아요");
-					} else {
-						System.out.print("좋아요 해제");
-					}
-					// 좋아요 체크 -> like 추가
-					// 좋아요 해제 -> like 삭제
 					
+				} else if (rcmd == 2) {
+					
+					if(isLogin()){
+						
+					} else{
+						Like like = aDao.getLike(article.getArticleNum(), login.getMemberRegNum());
+						if(like != null) {
+							System.out.print("좋아요를 해제합니다.");
+							aDao.deleteLike(article.getArticleNum(), login.getMemberRegNum());
+						} else {
+							System.out.print("좋아요");
+							aDao.insertLike(article.getArticleNum(), login.getMemberRegNum());
+						}
+						// 좋아요 체크 -> like 추가
+						// 좋아요 해제 -> like 삭제
+						
+						Article article2 = aDao.getArticleById(article.getArticleNum());
+						System.out.print(" : " + article2.getLikeCnt());
+						
+						ArrayList<Reply> reply2 = aDao.getRepliesByArticleId(article.getArticleNum());
+						
+						printArticle(article2, reply2);
+					}
 					
 				} else if (rcmd == 5) {
 					break;
@@ -221,6 +234,7 @@ public class App {
 		System.out.println("제목 : " + article.getTitle());
 		System.out.println("내용 : " + article.getBody());
 		System.out.println("조회수 : " + article.getHit());
+		System.out.println("좋아요 : " + article.getLikeCnt());
 		System.out.println("등록날짜 : " + article.getRegdate());
 		System.out.println("==== 댓글 ====");
 		for (int i = 0; i < reply.size(); i++) {
