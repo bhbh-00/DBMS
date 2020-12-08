@@ -1,31 +1,21 @@
-package board.like;
+package board.article;
 
 public class Like {
 	
-	private int like;
-	private int ArticleNum;
-	private int MemberRegNum;
+	private int ArticleNum; // 게시물번호
+	private int MemberRegNum; // 회원번호
 	private String regdate;
 	
 	public Like() {
 		
 	}
 		
-	public Like(int like, int articleNum, int memberRegNum, String regdate) {
-		super();
-		this.like = like;
+	public Like(int articleNum, int memberRegNum, String regdate) {
 		this.ArticleNum = articleNum;
 		this.MemberRegNum = memberRegNum;
 		this.regdate = regdate;
 	}
 	
-	
-	public int getLike() {
-		return like;
-	}
-	public void setLike(int like) {
-		this.like = like;
-	}
 	public int getArticleNum() {
 		return ArticleNum;
 	}

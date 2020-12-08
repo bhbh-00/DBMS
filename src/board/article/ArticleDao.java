@@ -89,10 +89,17 @@ public class ArticleDao {
 	public ArrayList<Article> getsortArticle(int sortFlag, int sortType) {
 		String sql1 = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum order by ";
 		String sql2 = sortFlag + " " + sortType;
-		
-		String sql = sql1 + sql2; 
-		
+
+		String sql = sql1 + sql2;
+
 		return db.getRows(sql, new ArticleRowMapper());
+	}
+
+	private Like getLike(int aid, int mid) {
+
+		String sql = "SELECT * FROM `Like` WHERE ArticleNum = ? AND MemberRegNum = ?";
+
+		return db.getRows(sql, new LikeRowMapper(), aid, mid);
 	}
 
 }
