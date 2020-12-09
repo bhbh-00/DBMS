@@ -52,6 +52,8 @@ public class App {
 				} else {
 					DeleteArticle();
 				}
+				
+				// 트랜지션 - 게시물을 지울 때 그와 연결된 댓글 좋아요도 지워져야함 // 반영이 될거면 다 반영 안될거면 다 안반영
 			} else if (cmd.equals("update")) {
 				if (!isLogin()) {
 
