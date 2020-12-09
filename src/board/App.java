@@ -43,8 +43,7 @@ public class App {
 
 				} else {
 					AddArticle();
-				}
-
+				} 
 			} else if (cmd.equals("list")) {
 				ArticlesList();
 			} else if (cmd.equals("delete")) {
@@ -66,7 +65,7 @@ public class App {
 			} else if (cmd.equals("sort")) {
 				sort();
 			} else if (cmd.equals("page")) {
-				Paging();
+				// Paging();
 			} else if (cmd.equals("signup")) {
 				Membersignup();
 			} else if (cmd.equals("signin")) {
@@ -110,7 +109,7 @@ public class App {
 		String body = sc.nextLine();
 		System.out.println("=======================");
 		System.out.println();
-		aDao.insertArticle(title, body, login.getMemberId());
+		aDao.insertArticle(title, body);
 		System.out.println("게시물 등록이 완료되었습니다.");
 		System.out.println();
 	}
@@ -130,8 +129,23 @@ public class App {
 			System.out.println("내용 : " + articles.getBody());
 			System.out.println("작성자 : " + articles.getNickname());
 			System.out.println("조회수 : " + articles.getHit());
+			System.out.println("좋아요 : " + articles.getLikeCnt());
 			System.out.println("등록날짜 : " + articles.getRegdate());
 			System.out.println();
+		}
+		int currentPage = 2;
+		int pageCountInBlock = 5; // 원하는 페이지 갯수
+		int articleCntPerPage = 3; // 한 페이지당 보여지는 게시물 수
+		int currentPageBlock = (int)Math.ceil((double)currentPage / pageCountInBlock); // 올림 / ()에는 더블 / 올림을 한 후 더블로 리턴 / 더블로 형변환 후 int로 변환해줌
+		int startNoInCurrentPageBlock = pageCountInBlock * (currentPage - 1) + 1; // 
+		int endNoInCurrentPageBlock = startNoInCurrentPageBlock + pageCountInBlock - 1;
+		
+		for(int i = startNoInCurrentPageBlock; i <= endNoInCurrentPageBlock; i++) {
+			if(i == currentPage) {
+				System.out.print("["+ i + "] ");
+			} else {				
+				System.out.print(i + " ");
+			}
 		}
 	}
 
@@ -275,11 +289,6 @@ public class App {
 
 	}
 	
-	// 게시물 페이징 기능
-	public void Paging() {
-		
-	}
-
 	// 회원가입기능
 	public void Membersignup() {
 		System.out.println("======== 회원가입 ========");

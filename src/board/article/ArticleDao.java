@@ -31,9 +31,9 @@ public class ArticleDao {
 	}
 
 	// 게시물 추가
-	public int insertArticle(String title, String body, String mid) {
-		String sql = "insert into article set title = ?, body = ?, MRegNum = ?, regDate = NOW(), hit = 0";
-		return db.updateQuery(sql, title, body, mid);
+	public int insertArticle(String title, String body) {
+		String sql = "insert into article set title = ?, body = ?, MRegNum = 1, regDate = NOW(), hit = 0";
+		return db.updateQuery(sql, title, body);
 	}
 
 	// 게시물 댓글추가 기능
@@ -48,7 +48,7 @@ public class ArticleDao {
 	}
 
 	public Article getArticleById(int ArticleNum) {
-		String sql = "SELECT a.*, Membernickname nickname FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum WHERE a.ArticleNum = ?";
+		String sql = "SELECT a.*, Membernickname nickname, count(l.aid) FROM article a INNER JOIN `member` m ON a.MRegNum = MemberRegNum WHERE a.ArticleNum = ?";
 		return db.getRow(sql, new ArticleRowMapper(), ArticleNum);
 	}
 
