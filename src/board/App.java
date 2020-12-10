@@ -135,6 +135,7 @@ public class App {
 			System.out.println("등록날짜 : " + articles.getRegdate());
 			System.out.println();
 		}
+		// 페이징
 		int currentPage = 2;
 		int pageCountInBlock = 5; // 원하는 페이지 갯수
 		int articleCntPerPage = 3; // 한 페이지당 보여지는 게시물 수
