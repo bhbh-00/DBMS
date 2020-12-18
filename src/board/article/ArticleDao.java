@@ -32,7 +32,7 @@ public class ArticleDao {
 
 	// 게시물 추가
 	public int insertArticle(String title, String body) {
-		String sql = "insert into article set title = ?, body = ?, MRegNum = 1, regDate = NOW(), hit = 0";
+		String sql = "insert into article set title = ?, body = ?, MRegNum = 1, regDate = NOW(), hit = 0, likecnt = 0";
 		return db.updateQuery(sql, title, body);
 	}
 
